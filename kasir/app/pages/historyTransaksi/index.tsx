@@ -1,3 +1,6 @@
+import { DrawerContent } from "@/app/components";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { NavigationProp } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
     ScrollView,
@@ -6,11 +9,8 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { NavigationProp } from "@react-navigation/native";
-import MenuDrawer from "react-native-side-drawer";
-import { DrawerContent } from "@/app/components";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MenuDrawer from "react-native-side-drawer";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
         position: "relative",
         paddingVertical: 10,
         paddingHorizontal: 5,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
     },
     headTitle: {
         fontSize: 20,

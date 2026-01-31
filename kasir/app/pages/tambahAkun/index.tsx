@@ -1,18 +1,13 @@
 import Button from "@/app/components/moleculs/Button";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
+import React, { useState } from "react";
 import {
-    NavigationProp,
-    RouteProp,
-    useNavigation,
-} from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import {
-    Text,
-    View,
-    StyleSheet,
-    TextInput,
     ScrollView,
-    Alert,
     StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 
 interface props {
@@ -146,7 +141,7 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingHorizontal: 10,
         paddingBottom: 19,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
         gap: 8,
         marginBottom: 10,
         alignItems: "center",
@@ -158,7 +153,7 @@ const styles = StyleSheet.create({
     navbar: {
         padding: 7,
         marginBottom: 40,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
     },
     container: {
         flex: 1,
@@ -167,7 +162,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     button: {
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
         width: 100,
         padding: 8,
         alignItems: "center",

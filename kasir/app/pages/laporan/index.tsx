@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from "react";
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { NavigationProp } from "@react-navigation/native";
-import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
+import Button from "@/app/components/moleculs/Button";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import { NavigationProp } from "@react-navigation/native";
+import * as FileSystem from "expo-file-system";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
-import * as FileSystem from "expo-file-system";
-import Button from "@/app/components/moleculs/Button";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MenuDrawer from "react-native-side-drawer";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -573,7 +567,7 @@ const styles = StyleSheet.create({
         position: "relative",
         paddingVertical: 10,
         paddingHorizontal: 5,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
     },
     headTitle: {
         fontSize: 20,

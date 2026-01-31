@@ -1,3 +1,11 @@
+import { DrawerContent } from "@/app/components";
+import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Fontisto from "@expo/vector-icons/Fontisto";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import {
     Alert,
     ScrollView,
@@ -7,16 +15,8 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import MenuDrawer from "react-native-side-drawer";
-import React, { useEffect, useState } from "react";
-import Fontisto from "@expo/vector-icons/Fontisto";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { DrawerContent } from "@/app/components";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MenuDrawer from "react-native-side-drawer";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
         position: "relative",
         paddingVertical: 10,
         paddingHorizontal: 5,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
     },
     headTitle: {
         fontSize: 20,

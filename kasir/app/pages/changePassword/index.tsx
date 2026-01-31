@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: "900",
         marginBottom: 10,
-        color: "#27548A",
+        color: "#FF9B51",
         textAlign: "center",
     },
     headLoginText2: {
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         marginTop: -10,
     },
     button: {
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
         width: "80%",
         paddingVertical: 15,
         alignItems: "center",

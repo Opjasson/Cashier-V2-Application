@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     sidebarHead: {
         flexDirection: "row",
         gap: 15,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
         padding: 15,
     },
     sidebarTitle: {

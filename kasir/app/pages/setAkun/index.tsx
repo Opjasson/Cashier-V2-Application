@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-    Text,
-    View,
-    StyleSheet,
-    StatusBar,
-    TouchableOpacity,
     Alert,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
-import { NavigationProp } from "@react-navigation/native";
 import Button from "@/app/components/moleculs/Button";
+import { NavigationProp } from "@react-navigation/native";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         padding: 5,
         paddingHorizontal: 10,
         paddingBottom: 19,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
         gap: 8,
         marginBottom: 30,
         alignItems: "center",
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     navbar: {
         padding: 7,
         marginBottom: 40,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
     },
     container: {
         flex: 1,

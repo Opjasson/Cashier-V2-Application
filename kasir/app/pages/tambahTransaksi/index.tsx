@@ -1,3 +1,6 @@
+import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useEffect, useState } from "react";
 import {
     ScrollView,
@@ -8,15 +11,12 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
-import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
+import MenuDrawer from "react-native-side-drawer";
 
 import Feather from "@expo/vector-icons/Feather";
 import {
@@ -165,7 +165,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={"#27548A"} barStyle={"light-content"} />
+            <StatusBar backgroundColor={"#FF9B51"} barStyle={"light-content"} />
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
                 <Ionicons
@@ -288,10 +288,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
             {/* ---------- */}
 
             <TouchableOpacity
-                style={[
-                    {bottom : inset.bottom},
-                    styles.containerCart]
-                }
+                style={[{ bottom: inset.bottom }, styles.containerCart]}
                 activeOpacity={1}
                 onPress={() => prosesCart()}
             >
@@ -356,7 +353,7 @@ const styles = StyleSheet.create({
         position: "relative",
         paddingVertical: 10,
         paddingHorizontal: 5,
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
     },
     headTitle: {
         fontSize: 20,
@@ -414,7 +411,7 @@ const styles = StyleSheet.create({
         height: 70,
         width: "100%",
         position: "absolute",
-        backgroundColor: "#27548A",
+        backgroundColor: "#FF9B51",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         paddingTop: 5,
