@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DrawerContent } from "@/app/components";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -115,7 +116,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
                 <Ionicons
@@ -210,7 +211,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                 overlay={true}
                 opacity={0.4}
             ></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 

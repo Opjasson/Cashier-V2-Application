@@ -18,6 +18,7 @@ import Button from "@/app/components/moleculs/Button";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -320,7 +321,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     // console.log("tgl2", date2);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
                 <Ionicons
@@ -488,7 +489,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 overlay={true}
                 opacity={0.4}
             ></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 

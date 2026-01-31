@@ -10,6 +10,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { NavigationProp } from "@react-navigation/native";
 import MenuDrawer from "react-native-side-drawer";
 import { DrawerContent } from "@/app/components";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -97,7 +98,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* bagian atas aplikasi kasir */}
             <View style={styles.headContainer}>
                 <Ionicons
@@ -175,7 +176,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                 overlay={true}
                 opacity={0.4}
             ></MenuDrawer>
-        </View>
+        </SafeAreaView>
     );
 };
 
