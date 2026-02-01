@@ -10,6 +10,7 @@ interface props {
     onPress3: () => void;
     onPress4: () => void;
     onPress5: () => void;
+    onPress6: () => void;
     toggleOpen: () => void;
 }
 
@@ -20,6 +21,7 @@ const DrawerContent: React.FC<props> = ({
     onPress3,
     onPress4,
     onPress5,
+    onPress6,
 }) => {
     return (
         <SafeAreaView style={styles.animatedBox}>
@@ -43,6 +45,10 @@ const DrawerContent: React.FC<props> = ({
 
                 <TouchableOpacity onPress={onPress5}>
                     <Text style={styles.sidebarMenu}>Laporan</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={onPress6}>
+                    <Text style={styles.sidebarMenu}>Absen</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity

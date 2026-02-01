@@ -15,6 +15,7 @@ import {
     UbahAkun,
     CekEmail,
     ChangePass,
+    Absen,
 } from "../pages";
 import ProsesTransaksi from "../pages/prosesTransaksi";
 
@@ -39,6 +40,11 @@ const Route = () => {
             <Stack.Screen
                 name="laporan"
                 component={Laporan}
+            />
+
+            <Stack.Screen
+                name="absen"
+                component={Absen}
             />
             
             <Stack.Screen

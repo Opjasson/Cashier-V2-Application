@@ -156,6 +156,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 onPress3={() => navigation.navigate("history-transaksi")}
                 onPress4={() => navigation.navigate("login")}
                 onPress5={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("absen")}
             />
         );
     };

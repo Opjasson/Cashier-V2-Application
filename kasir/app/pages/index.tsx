@@ -13,6 +13,7 @@ import TambahAkun from "./tambahAkun";
 import UbahAkun from "./ubahAkun";
 import CekEmail from "./cekEmail";
 import ChangePass from "./changePassword";
+import Absen from "./absen";
 
 export {
     Kasir,
@@ -29,5 +30,6 @@ export {
     TambahAkun,
     UbahAkun,
     CekEmail,
-    ChangePass
+    ChangePass,
+    Absen,
 }
