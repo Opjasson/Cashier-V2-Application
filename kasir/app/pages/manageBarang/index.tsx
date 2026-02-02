@@ -40,7 +40,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.159.12:5000/barang");
+        const response = await fetch("http://192.168.207.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -61,7 +61,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
     const handleDelete = async (id: number) => {
         try {
-            await fetch(`http://192.168.159.12:5000/barang/${id}`, {
+            await fetch(`http://192.168.207.12:5000/barang/${id}`, {
                 method: "DELETE",
             });
             if (refresh) {

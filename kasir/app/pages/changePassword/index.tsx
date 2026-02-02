@@ -26,7 +26,7 @@ const ChangePass: React.FC<props> = ({ navigation, route }) => {
     const handleChange = async () => {
         if (password && confPassword) {
             const response = await fetch(
-                `http://192.168.159.12:5000/user/${user.id}`,
+                `http://192.168.207.12:5000/user/${user.id}`,
                 {
                     method: "PATCH",
                     headers: {

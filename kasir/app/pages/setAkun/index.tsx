@@ -26,7 +26,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
     const [id, setId] = useState<number>();
 
     const getUserId = async () => {
-        const response = await fetch("http://192.168.159.12:5000/login");
+        const response = await fetch("http://192.168.207.12:5000/login");
         const data = await response.json();
         setId(Object.values(data)[0]?.userId);
     };
@@ -43,7 +43,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const fetchData = async () => {
-        const response = await fetch("http://192.168.159.12:5000/user");
+        const response = await fetch("http://192.168.207.12:5000/user");
         const data = await response.json();
         console.log(data.data);
 
@@ -52,7 +52,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const deleteAkun = async (id: number) => {
-        const response = await fetch(`http://192.168.159.12:5000/user/${id}`, {
+        const response = await fetch(`http://192.168.207.12:5000/user/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

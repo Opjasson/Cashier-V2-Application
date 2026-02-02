@@ -1,11 +1,11 @@
+import Button from "@/app/components/moleculs/Button";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import * as FileSystem from "expo-file-system";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import Button from "@/app/components/moleculs/Button";
-import * as FileSystem from "expo-file-system";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface props {
     route: RouteProp<any, any>;
@@ -33,7 +33,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://192.168.159.12:5000/transaksi/${routeUuid}`,
+            `http://192.168.207.12:5000/transaksi/${routeUuid}`,
         );
         const dataJson = await response.json();
         setCart(dataJson.carts);
@@ -57,7 +57,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.159.12:5000/barang");
+            const response = await fetch("http://192.168.207.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -74,7 +74,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.159.12:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.207.12:5000/transaksi/${id}`, {
             method: "DELETE",
         });
         navigation.navigate("history-transaksi");
@@ -154,27 +154,30 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     // console.log(sum);
 
- const handleSavePdf = async () => {
-  const htmlContent = handleCetak();
+    const handleSavePdf = async () => {
+        const htmlContent = handleCetak();
 
-  const { uri } = await Print.printToFileAsync({
-    html: htmlContent,
-  });
+        const { uri } = await Print.printToFileAsync({
+            html: htmlContent,
+        });
 
-  const customFileName = `Kasir_bengkel_${dateNow}.pdf`;
+        const customFileName = `Kasir_bengkel_${dateNow}.pdf`;
 
-  // buat file target
-  const targetFile = new FileSystem.File(FileSystem.Paths.document, customFileName);
+        // buat file target
+        const targetFile = new FileSystem.File(
+            FileSystem.Paths.document,
+            customFileName,
+        );
 
-  // file sumber
-  const sourceFile = new FileSystem.File(uri);
+        // file sumber
+        const sourceFile = new FileSystem.File(uri);
 
-  // move → harus File object
-  await sourceFile.move(targetFile);
+        // move → harus File object
+        await sourceFile.move(targetFile);
 
-  // share pakai uri hasil target
-  await Sharing.shareAsync(targetFile.uri);
-};
+        // share pakai uri hasil target
+        await Sharing.shareAsync(targetFile.uri);
+    };
 
     //
     // console.log(barangMap);

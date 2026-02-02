@@ -88,7 +88,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getCart = async () => {
         try {
-            const response = await fetch("http://192.168.159.12:5000/cart");
+            const response = await fetch("http://192.168.207.12:5000/cart");
             const cat = await response.json();
             setCart(cat.response);
         } catch (error) {
@@ -98,7 +98,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.159.12:5000/barang");
+            const response = await fetch("http://192.168.207.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {

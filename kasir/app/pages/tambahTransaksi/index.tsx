@@ -55,7 +55,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     const login = route.params?.data;
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.159.12:5000/barang");
+        const response = await fetch("http://192.168.207.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -124,7 +124,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     });
 
     const prosesCart = async () => {
-        const response = await fetch("http://192.168.159.12:5000/transaksi", {
+        const response = await fetch("http://192.168.207.12:5000/transaksi", {
             method: "POST",
         });
         const transaksi = await response.json();
