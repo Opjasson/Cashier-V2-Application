@@ -2,7 +2,7 @@ import { DrawerContent } from "@/app/components";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ScrollView,
     StyleSheet,
@@ -20,13 +20,25 @@ interface props {
 
 const Absen: React.FC<props> = ({ navigation, route }) => {
     const [open, setOpen] = useState(false);
+    const [dataAbsen, setDataAbsen] = useState<
+        {
+            tanggal: Date;
+            jam_masuk: string;
+            jam_keluar: string;
+            userId: number;
+        }[]
+    >([]);
 
     const tgl = new Date();
     const jam = String(tgl.getHours()).padStart(2, "0"); // 00 - 23
     const menit = String(tgl.getMinutes()).padStart(2, "0"); // 00 - 59
     const detik = String(tgl.getSeconds()).padStart(2, "0"); // 00 - 59
 
-    const formatTanggal = (date) => {
+    const formatTanggal = (dateInput: string | Date) => {
+        const date =
+            dateInput instanceof Date ? dateInput : new Date(dateInput);
+
+        if (isNaN(date.getTime())) return "-";
         const days = [
             "Minggu",
             "Senin",
@@ -45,6 +57,20 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
         return `${hari}, ${tgl}-${bulan}-${tahun}`;
     };
 
+    const getAbsensUser = async () => {
+        const userId = await AsyncStorage.getItem("userId");
+        try {
+            const response = await fetch(
+                `http://192.168.63.12:5000/absen/${userId}`,
+            );
+            const json = await response.json();
+            console.log("DATAABSEN", json);
+            setDataAbsen(json);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const createAbsen = async () => {
         const userId = await AsyncStorage.getItem("userId");
         try {
@@ -60,8 +86,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                 }),
             });
             const json = await response.json();
-            console.log("absenId",json.data.id);
-            
+
             // setIdAbsen(response.data.data.id);
             // localStorage.setItem("absen", "true");
             // localStorage.setItem("idAbsen", response.data.data.id);
@@ -71,6 +96,10 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        getAbsensUser();
+    }, []);
 
     const toggleOpen = () => {
         if (open === false) {
@@ -131,7 +160,10 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
 
                     {/* Button */}
                     <View style={styles.buttonRow}>
-                        <TouchableOpacity style={styles.btnAbsen} onPress={() => createAbsen()}>
+                        <TouchableOpacity
+                            style={styles.btnAbsen}
+                            onPress={() => createAbsen()}
+                        >
                             <Text style={styles.btnText}>ABSEN</Text>
                         </TouchableOpacity>
 
@@ -152,14 +184,16 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                     </View>
 
                     {/* Row */}
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.td, { flex: 0.5 }]}>1</Text>
-                        <Text style={[styles.td, { flex: 1.5 }]}>
-                            Minggu, 01-02-2026
-                        </Text>
-                        <Text style={styles.td}>13:02:50</Text>
-                        <Text style={styles.td}>-</Text>
-                    </View>
+                    {dataAbsen.map((a, index) => (
+                        <View style={styles.tableRow} key={index}>
+                            <Text style={[styles.td, { flex: 0.5 }]}>1</Text>
+                            <Text style={[styles.td, { flex: 1.5 }]}>
+                                {formatTanggal(a.tanggal)}
+                            </Text>
+                            <Text style={styles.td}>{a.jam_masuk}</Text>
+                            <Text style={styles.td}>-</Text>
+                        </View>
+                    ))}
                 </View>
             </ScrollView>
 
