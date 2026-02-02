@@ -23,7 +23,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("http://192.168.207.12:5000/user", {
+            const response = await fetch("http://192.168.63.12:5000/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

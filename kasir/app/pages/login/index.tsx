@@ -10,6 +10,7 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -22,7 +23,7 @@ const Login: React.FC<props> = ({ navigation }) => {
 
     const handleLogin = async () => {
         if (email && password) {
-            const response = await fetch("http://192.168.207.12:5000/login", {
+            const response = await fetch("http://192.168.63.12:5000/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,6 +38,10 @@ const Login: React.FC<props> = ({ navigation }) => {
             if (JSON.stringify(response.status) === "401") {
                 setError("Email atau password salah!");
             } else {
+                // console.log(json.response.id);
+
+                await AsyncStorage.setItem("userId", String(json.response.id));
+                alert("Login sukses");
                 navigation.navigate("kasir", { data: json.response });
             }
         } else {

@@ -60,9 +60,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getHistorys = async () => {
         try {
-            const response = await fetch(
-                "http://192.168.207.12:5000/transaksi",
-            );
+            const response = await fetch("http://192.168.63.12:5000/transaksi");
             const history = (await response.json()) as {
                 response: {
                     carts: [];
@@ -81,7 +79,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.207.12:5000/barang");
+            const response = await fetch("http://192.168.63.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {

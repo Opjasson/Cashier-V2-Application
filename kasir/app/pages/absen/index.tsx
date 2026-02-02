@@ -1,5 +1,6 @@
 import { DrawerContent } from "@/app/components";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
@@ -19,6 +20,58 @@ interface props {
 
 const Absen: React.FC<props> = ({ navigation, route }) => {
     const [open, setOpen] = useState(false);
+
+    const tgl = new Date();
+    const jam = String(tgl.getHours()).padStart(2, "0"); // 00 - 23
+    const menit = String(tgl.getMinutes()).padStart(2, "0"); // 00 - 59
+    const detik = String(tgl.getSeconds()).padStart(2, "0"); // 00 - 59
+
+    const formatTanggal = (date) => {
+        const days = [
+            "Minggu",
+            "Senin",
+            "Selasa",
+            "Rabu",
+            "Kamis",
+            "Jum'at",
+            "Sabtu",
+        ];
+
+        const hari = days[date.getDay()];
+        const tgl = String(date.getDate()).padStart(2, "0");
+        const bulan = String(date.getMonth() + 1).padStart(2, "0");
+        const tahun = date.getFullYear();
+
+        return `${hari}, ${tgl}-${bulan}-${tahun}`;
+    };
+
+    const createAbsen = async () => {
+        const userId = await AsyncStorage.getItem("userId");
+        try {
+            const response = await fetch("http://192.168.63.12:5000/absen", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    jam_masuk: `${jam}:${menit}:${detik}`,
+                    tanggal: tgl.toISOString(),
+                    userId: userId,
+                }),
+            });
+            const json = await response.json();
+            console.log("absenId",json.data.id);
+            
+            // setIdAbsen(response.data.data.id);
+            // localStorage.setItem("absen", "true");
+            // localStorage.setItem("idAbsen", response.data.data.id);
+            alert("Berhasil absen :)");
+            // navigate("/manage-menu");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const toggleOpen = () => {
         if (open === false) {
             setOpen(true);
@@ -55,7 +108,12 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
             {/* ------------ */}
 
             {/* menampilkan absen */}
-            <ScrollView contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 16 }}>
+            <ScrollView
+                contentContainerStyle={{
+                    paddingBottom: 40,
+                    paddingHorizontal: 16,
+                }}
+            >
                 {/* Judul */}
                 <Text style={styles.title}>Absensi</Text>
 
@@ -73,7 +131,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
 
                     {/* Button */}
                     <View style={styles.buttonRow}>
-                        <TouchableOpacity style={styles.btnAbsen}>
+                        <TouchableOpacity style={styles.btnAbsen} onPress={() => createAbsen()}>
                             <Text style={styles.btnText}>ABSEN</Text>
                         </TouchableOpacity>
 
@@ -163,7 +221,7 @@ const styles = StyleSheet.create({
         color: "white",
     },
     container: {
-        flex: 1
+        flex: 1,
     },
 
     title: {

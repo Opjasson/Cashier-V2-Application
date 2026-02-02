@@ -19,6 +19,7 @@ import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
 
 import Feather from "@expo/vector-icons/Feather";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     SafeAreaView,
     useSafeAreaInsets,
@@ -55,7 +56,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     const login = route.params?.data;
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.207.12:5000/barang");
+        const response = await fetch("http://192.168.63.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -118,13 +119,22 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
         }
     }, [cart, data]);
 
+    useEffect(() => {
+        const checkUserId = async () => {
+            const token = await AsyncStorage.getItem("userId");
+            console.log("TOKEN : ", token);
+        };
+
+        checkUserId();
+    }, []);
+
     const filterData = Object.values(data).filter((item) => {
         const words = find?.split(" ");
         return words?.some((word) => item.nama?.includes(word));
     });
 
     const prosesCart = async () => {
-        const response = await fetch("http://192.168.207.12:5000/transaksi", {
+        const response = await fetch("http://192.168.63.12:5000/transaksi", {
             method: "POST",
         });
         const transaksi = await response.json();
