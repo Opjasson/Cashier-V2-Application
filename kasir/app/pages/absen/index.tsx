@@ -54,7 +54,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
             </View>
             {/* ------------ */}
 
-            {/* menampilkan daftar menu */}
+            {/* menampilkan absen */}
             <ScrollView contentContainerStyle={{ paddingBottom: 40, paddingHorizontal: 16 }}>
                 {/* Judul */}
                 <Text style={styles.title}>Absensi</Text>

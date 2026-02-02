@@ -1,6 +1,6 @@
-import { STRING } from "sequelize";
-import db from "../config/database";
-import userModel from "./user"
+import { DATE, STRING } from "sequelize";
+import db from "../config/database.js";
+import userModel from "./user.js";
 
 
 const absenModel = db.define(
