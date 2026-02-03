@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ScrollView,
     StatusBar,
@@ -10,7 +11,6 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -20,6 +20,17 @@ const Login: React.FC<props> = ({ navigation }) => {
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [error, setError] = useState<string>();
+
+   useEffect(() => {
+        const checkToken = async () => {
+            const token = await AsyncStorage.getItem("userId");
+            if (token) {
+                navigation.navigate("kasir");
+                return;
+            }
+        };
+        checkToken();
+    }, [navigation]);
 
     const handleLogin = async () => {
         if (email && password) {

@@ -25,9 +25,9 @@ const Route = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {/* <Stack.Screen name="register" component={Register} /> */}
-            {/* <Stack.Screen name="login" component={Login} /> 
+            <Stack.Screen name="login" component={Login} /> 
             <Stack.Screen name="cekEmail" component={CekEmail} />
-            <Stack.Screen name="changePass" component={ChangePass} />  */}
+            <Stack.Screen name="changePass" component={ChangePass} /> 
             <Stack.Screen name="kasir" component={Kasir} />
 
             <Stack.Screen name="manage-barang" component={ManageBarang} />
