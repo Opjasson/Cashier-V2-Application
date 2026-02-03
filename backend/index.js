@@ -5,6 +5,7 @@ import transaksi_Route from "./routes/transaksiRoute.js";
 import cart_Route from "./routes/cartRoute.js";
 import user_Route from "./routes/userRoute.js";
 import auth_Route from "./routes/authRoute.js";
+import absen_Route from "./routes/absenRoute.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import transaksi from "./models/absenModel.js";
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(user_Route);
+app.use(absen_Route);
 app.use(barang_Route);
 app.use(transaksi_Route);
 app.use(cart_Route);

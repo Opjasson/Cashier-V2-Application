@@ -156,6 +156,11 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     };
     // ---------------
 
+    const handleLogout = async () => {
+        await AsyncStorage.multiRemove(["userId", "absenId"]);
+        navigation.navigate("login")
+    };
+
     // daftar menu sidebar
     const sideBarContent = () => {
         return (
@@ -164,7 +169,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 onPress1={() => navigation.navigate("kasir")}
                 onPress2={() => navigation.navigate("manage-barang")}
                 onPress3={() => navigation.navigate("history-transaksi")}
-                onPress4={() => navigation.navigate("login")}
+                onPress4={() => handleLogout()}
                 onPress5={() => navigation.navigate("laporan")}
                 onPress6={() => navigation.navigate("absen")}
             />

@@ -20,6 +20,8 @@ interface props {
 
 const Absen: React.FC<props> = ({ navigation, route }) => {
     const [open, setOpen] = useState(false);
+    const [absenId, setAbsenId] = useState("");
+    const [dateLast, setDateLast] = useState("");
     const [dataAbsen, setDataAbsen] = useState<
         {
             tanggal: Date;
@@ -57,14 +59,25 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
         return `${hari}, ${tgl}-${bulan}-${tahun}`;
     };
 
+    let dateNow = new Date();
+
+    console.log(dateNow.toLocaleDateString());
+    
+    
+
     const getAbsensUser = async () => {
         const userId = await AsyncStorage.getItem("userId");
+        const absenId = await AsyncStorage.getItem("absenId");
+        const dateCondition = await AsyncStorage.getItem("lastAbsen");
+        
+        setAbsenId(absenId!!)
+        setDateLast(dateCondition!!)
+        
         try {
             const response = await fetch(
                 `http://192.168.63.12:5000/absen/${userId}`,
             );
             const json = await response.json();
-            console.log("DATAABSEN", json);
             setDataAbsen(json);
         } catch (error) {
             console.log(error);
@@ -86,12 +99,32 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                 }),
             });
             const json = await response.json();
-
+            await AsyncStorage.setItem("absenId", String(json.data.id));
             // setIdAbsen(response.data.data.id);
             // localStorage.setItem("absen", "true");
             // localStorage.setItem("idAbsen", response.data.data.id);
             alert("Berhasil absen :)");
-            // navigate("/manage-menu");
+            navigation.navigate("kasir");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const createPulang = async () => {
+        const absenId = await AsyncStorage.getItem("absenId");
+        try {
+            await fetch(`http://192.168.63.12:5000/absen/${absenId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    jam_keluar: `${jam}:${menit}:${detik}`,
+                }),
+            });
+            await AsyncStorage.setItem("lastAbsen", String(dateNow.toLocaleDateString()));
+            alert("Silahkan untuk logout.");
+            navigation.navigate("kasir");
         } catch (error) {
             console.log(error);
         }
@@ -159,15 +192,20 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                     </Text>
 
                     {/* Button */}
-                    <View style={styles.buttonRow}>
+                    <View style={dateLast != dateNow.toLocaleDateString() ? styles.buttonRow : styles.buttonRowHidden}>
                         <TouchableOpacity
+                            disabled = {absenId == null ? false : true}
                             style={styles.btnAbsen}
                             onPress={() => createAbsen()}
                         >
                             <Text style={styles.btnText}>ABSEN</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.btnPulang}>
+                        <TouchableOpacity
+                            disabled = {absenId == null ? true : false}
+                            style={styles.btnPulang}
+                            onPress={() => createPulang()}
+                        >
                             <Text style={styles.btnText}>PULANG</Text>
                         </TouchableOpacity>
                     </View>
@@ -186,12 +224,14 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                     {/* Row */}
                     {dataAbsen.map((a, index) => (
                         <View style={styles.tableRow} key={index}>
-                            <Text style={[styles.td, { flex: 0.5 }]}>1</Text>
+                            <Text style={[styles.td, { flex: 0.5 }]}>
+                                {index + 1}
+                            </Text>
                             <Text style={[styles.td, { flex: 1.5 }]}>
                                 {formatTanggal(a.tanggal)}
                             </Text>
                             <Text style={styles.td}>{a.jam_masuk}</Text>
-                            <Text style={styles.td}>-</Text>
+                            <Text style={styles.td}>{a.jam_keluar}</Text>
                         </View>
                     ))}
                 </View>
@@ -291,6 +331,9 @@ const styles = StyleSheet.create({
     buttonRow: {
         flexDirection: "row",
         marginTop: 12,
+    },
+    buttonRowHidden: {
+        display : "none"
     },
 
     btnAbsen: {
