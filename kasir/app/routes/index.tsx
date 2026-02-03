@@ -83,7 +83,7 @@ const Route = () => {
             <Stack.Screen
                 options={{
                     headerShown: true,
-                    headerTitle: "Set akun",
+                    headerTitle: "Halaman Admin",
                 }}
                 name="settingAkun"
                 component={SetAkun}

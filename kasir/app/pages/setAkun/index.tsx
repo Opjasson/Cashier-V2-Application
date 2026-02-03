@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
     Alert,
+    ScrollView,
     StatusBar,
     StyleSheet,
     Text,
@@ -22,18 +23,48 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
             email: string;
         }[]
     >([]);
+    const [usersAbsen, setUsersAbsen] = useState<{
+            email: string;
+            role: string;
+        }[]>([]);
+    // const navigate = useNavigate();
+   
 
-    const [id, setId] = useState<number>();
-
-    const getUserId = async () => {
-        const response = await fetch("http://192.168.63.12:5000/login");
-        const data = await response.json();
-        setId(Object.values(data)[0]?.userId);
+    const handleDetail = (id) => {
+        alert(`Lihat detail karyawan dengan ID: ${id}`);
+        // di sini bisa diarahkan ke halaman detail absensi
+        // contoh: navigate(`/karyawan/${id}`)
     };
 
     useEffect(() => {
-        getUserId();
+        const getDataAbsen = async () => {
+            try {
+                const response = await fetch(`http://192.168.63.12:5000/user`);
+                const data = await response.json();
+                setUsersAbsen(data.data);
+                console.log("DATAUSER",data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        getDataAbsen();
     }, []);
+
+    // const filterKasirOnly = users.filter((item) => item.role === "kasir");
+    // console.log(filterKasirOnly);
+
+    // const [id, setId] = useState<number>();
+
+    // const getUserId = async () => {
+    //     const response = await fetch("http://192.168.63.12:5000/login");
+    //     const data = await response.json();
+    //     setId(Object.values(data)[0]?.userId);
+    // };
+
+    // useEffect(() => {
+    //     getUserId();
+    // }, []);
 
     // useEffect(() => {
     //     if (id !== 2) {
@@ -71,13 +102,13 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor="#3bb9f7" barStyle="light-content" />
+            <StatusBar backgroundColor="#FF9B51" barStyle="light-content" />
 
             <View style={styles.headInfo}>
                 <Text
                     style={{ fontSize: 26, fontWeight: "700", color: "white" }}
                 >
-                    Setting akun kasir
+                    Halaman Admin
                 </Text>
                 <Text
                     style={{
@@ -88,6 +119,45 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                     }}
                 ></Text>
             </View>
+
+             {/* menampilkan absen */}
+                        <ScrollView
+                            contentContainerStyle={{
+                                paddingBottom: 40,
+                                paddingHorizontal: 16,
+                            }}
+                        >
+                            {/* Judul */}
+                            <Text style={styles.title}>Absensi</Text>
+            
+                            {/* Card Detail Absen */}
+                            <View style={styles.card}>
+                                <Text style={styles.cardTitle}>Daftar Karyawan</Text>
+                            </View>
+            
+                            {/* Tabel Absensi */}
+                            <View style={styles.table}>
+                                {/* Header */}
+                                <View style={styles.tableHeader}>
+                                    <Text style={[styles.th, { flex: 0.5 }]}>No</Text>
+                                    <Text style={[styles.th, { flex: 1.5 }]}>Nama</Text>
+                                    <Text style={styles.th}>Detail</Text>
+                                </View>
+            
+                                {/* Row */}
+                                {usersAbsen.map((a, index) => (
+                                    <View style={styles.tableRow} key={index}>
+                                        <Text style={[styles.td, { flex: 0.5 }]}>
+                                            {index + 1}
+                                        </Text>
+                                        <Text style={[styles.td, { flex: 1.5 }]}>
+                                            {a.email}
+                                        </Text>
+                                        <Text style={styles.td}>Detail</Text>
+                                    </View>
+                                ))}
+                            </View>
+                        </ScrollView>
 
             <Button
                 aksi={() => navigation.navigate("tambahAkun")}
@@ -242,6 +312,97 @@ const styles = StyleSheet.create({
     textRank: {
         textAlign: "left",
         width: 90,
+    },
+    title: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginVertical: 16,
+    },
+
+    /* Card */
+    card: {
+        backgroundColor: "#fff",
+        borderRadius: 10,
+        padding: 16,
+        elevation: 3,
+        marginBottom: 20,
+    },
+
+    cardTitle: {
+        fontSize: 16,
+        fontWeight: "bold",
+        marginBottom: 8,
+    },
+
+    text: {
+        fontSize: 14,
+        marginBottom: 4,
+    },
+
+    textBold: {
+        fontWeight: "bold",
+    },
+
+    buttonRow: {
+        flexDirection: "row",
+        marginTop: 12,
+    },
+    buttonRowHidden: {
+        display : "none"
+    },
+
+    btnAbsen: {
+        backgroundColor: "#0BB54A",
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 6,
+        marginRight: 10,
+    },
+
+    btnPulang: {
+        backgroundColor: "#E53935",
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 6,
+    },
+
+    btnText: {
+        color: "#fff",
+        fontWeight: "bold",
+    },
+
+    /* Table */
+    table: {
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 8,
+        overflow: "hidden",
+    },
+
+    tableHeader: {
+        flexDirection: "row",
+        backgroundColor: "#F1F1F1",
+        paddingVertical: 8,
+    },
+
+    th: {
+        flex: 1,
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize: 13,
+    },
+
+    tableRow: {
+        flexDirection: "row",
+        backgroundColor: "#2C3E50",
+        paddingVertical: 10,
+    },
+
+    td: {
+        flex: 1,
+        color: "#fff",
+        textAlign: "center",
+        fontSize: 13,
     },
 });
 export default SetAkun;
