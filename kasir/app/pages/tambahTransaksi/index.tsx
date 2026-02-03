@@ -3,6 +3,8 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useEffect, useState } from "react";
 import {
+    Alert,
+    BackHandler,
     ScrollView,
     StatusBar,
     StyleSheet,
@@ -13,7 +15,7 @@ import {
 } from "react-native";
 
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useFocusEffect } from "@react-navigation/native";
 
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
@@ -54,6 +56,29 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     >([]);
 
     const login = route.params?.data;
+
+
+     // Handle jika user klik tombol kembali handphone
+    useFocusEffect(
+        React.useCallback(() => {
+            const onBackPress = () => {
+                // kalau mau keluar app:
+                Alert.alert("Keluar", "Yakin mau keluar aplikasi?", [
+                    { text: "Batal", style: "cancel" },
+                    { text: "Ya", onPress: () => BackHandler.exitApp() },
+                ]);
+                return true; // cegah kembali ke login
+            };
+
+            const subscription = BackHandler.addEventListener(
+                "hardwareBackPress",
+                onBackPress
+            );
+
+            return () => subscription.remove(); // hapus listener dengan cara baru
+        }, [])
+    );
+    // end handle tombol kembali
 
     const getDataBarang = async () => {
         const response = await fetch("http://192.168.63.12:5000/barang");
