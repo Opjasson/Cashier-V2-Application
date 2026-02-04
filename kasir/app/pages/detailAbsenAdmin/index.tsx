@@ -9,13 +9,42 @@ interface props {
 }
 
 const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
-    const [dataAbsen1, setDataAbsen] = useState([]);
+    const [dataAbsen1, setDataAbsen] = useState<
+        {
+            tanggal: Date;
+            jam_masuk: string;
+            jam_keluar: string;
+            userId: number;
+        }[]
+    >([]);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
 
     const sendData = route.params?.userId;
-    console.log("USERID",sendData);
-    
+    console.log("USERID", sendData);
+
+    const formatTanggal = (dateInput: string | Date) => {
+        const date =
+            dateInput instanceof Date ? dateInput : new Date(dateInput);
+
+        if (isNaN(date.getTime())) return "-";
+        const days = [
+            "Minggu",
+            "Senin",
+            "Selasa",
+            "Rabu",
+            "Kamis",
+            "Jum'at",
+            "Sabtu",
+        ];
+
+        const hari = days[date.getDay()];
+        const tgl = String(date.getDate()).padStart(2, "0");
+        const bulan = String(date.getMonth() + 1).padStart(2, "0");
+        const tahun = date.getFullYear();
+
+        return `${hari}, ${tgl}-${bulan}-${tahun}`;
+    };
 
     const getUser = async () => {
         try {
@@ -36,7 +65,22 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
         getUser();
     }, []);
 
-    
+    // const getAbsensUser = async () => {
+    //     try {
+    //         const response = await fetch(
+    //             `http://192.168.63.12:5000/absen/${sendData}`,
+    //         );
+    //         const json = await response.json();
+    //         setDataAbsen(json);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     getAbsensUser();
+    // }, []);
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="#FF9B51" barStyle="light-content" />
@@ -70,8 +114,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
                 {/* Card Detail Absen */}
                 <View style={styles.card}>
                     <Text style={styles.text}>
-                        Email :{" "}
-                        <Text style={styles.textBold}>{email}</Text>
+                        Email : <Text style={styles.textBold}>{email}</Text>
                     </Text>
                     <Text style={styles.text}>
                         Divisi : <Text style={styles.textBold}>{role}</Text>
@@ -89,19 +132,18 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
                     </View>
 
                     {/* Row */}
-                    {/* {usersAbsen.map((a, index) => (
-                                    <View style={styles.tableRow} key={index}>
-                                        <Text style={[styles.td, { flex: 0.5 }]}>
-                                            {index + 1}
-                                        </Text>
-                                        <Text style={[styles.td, { flex: 1.5 }]}>
-                                            {a.email}
-                                        </Text>
-                                        <Text 
-                                        style={styles.td}
-                                        onPress={() => navigation.navigate("detailAbsen")}>Detail</Text>
-                                    </View>
-                                ))} */}
+                    {dataAbsen1.map((a, index) => (
+                        <View style={styles.tableRow} key={index}>
+                            <Text style={[styles.td, { flex: 0.5 }]}>
+                                {index + 1}
+                            </Text>
+                            <Text style={[styles.td, { flex: 1.5 }]}>
+                                {formatTanggal(a.tanggal)}
+                            </Text>
+                            <Text style={styles.td}>{a.jam_masuk}</Text>
+                            <Text style={styles.td}>{a.jam_keluar}</Text>
+                        </View>
+                    ))}
 
                     <Text style={styles.th}>Total Gaji: Rp.20000</Text>
                 </View>
