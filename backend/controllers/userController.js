@@ -1,3 +1,4 @@
+import absenModel from "../models/absenModel.js";
 import Users from "../models/user.js";
 import argon2 from "argon2";
 
@@ -18,6 +19,12 @@ export const getUserById = async (req, res) => {
             where: {
                 id: req.params.id,
             },
+            include: [
+                {
+                    model: absenModel,
+                    attributes: ["jam_masuk", "jam_keluar", "tanggal"],
+                },
+            ],
         });
         res.status(200).json(response);
     } catch (error) {

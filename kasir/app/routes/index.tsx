@@ -16,6 +16,7 @@ import {
     CekEmail,
     ChangePass,
     Absen,
+    AbsenDetailAdmin,
 } from "../pages";
 import ProsesTransaksi from "../pages/prosesTransaksi";
 
@@ -87,6 +88,15 @@ const Route = () => {
                 }}
                 name="settingAkun"
                 component={SetAkun}
+            />
+
+            <Stack.Screen
+                options={{
+                    headerShown: true,
+                    headerTitle: "Absen Detail",
+                }}
+                name="absenDetail"
+                component={AbsenDetailAdmin}
             />
 
             <Stack.Screen

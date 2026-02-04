@@ -23,33 +23,6 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
             email: string;
         }[]
     >([]);
-    const [usersAbsen, setUsersAbsen] = useState<{
-            email: string;
-            role: string;
-        }[]>([]);
-    // const navigate = useNavigate();
-   
-
-    const handleDetail = (id) => {
-        alert(`Lihat detail karyawan dengan ID: ${id}`);
-        // di sini bisa diarahkan ke halaman detail absensi
-        // contoh: navigate(`/karyawan/${id}`)
-    };
-
-    useEffect(() => {
-        const getDataAbsen = async () => {
-            try {
-                const response = await fetch(`http://192.168.63.12:5000/user`);
-                const data = await response.json();
-                setUsersAbsen(data.data);
-                console.log("DATAUSER",data.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        getDataAbsen();
-    }, []);
 
     // const filterKasirOnly = users.filter((item) => item.role === "kasir");
     // console.log(filterKasirOnly);
@@ -145,7 +118,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                                 </View>
             
                                 {/* Row */}
-                                {usersAbsen.map((a, index) => (
+                                {user.map((a, index) => (
                                     <View style={styles.tableRow} key={index}>
                                         <Text style={[styles.td, { flex: 0.5 }]}>
                                             {index + 1}
@@ -153,7 +126,12 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                                         <Text style={[styles.td, { flex: 1.5 }]}>
                                             {a.email}
                                         </Text>
-                                        <Text style={styles.td}>Detail</Text>
+                                        <Button
+                                        style={styles.td}
+                                        styleTitle={styles.buttonTitleAbsen}
+                                        aksi={() => navigation.navigate("absenDetail", {
+                                            userId : a.id
+                                        })}>Detail</Button>
                                     </View>
                                 ))}
                             </View>
@@ -249,6 +227,11 @@ const styles = StyleSheet.create({
     textNav: {
         fontSize: 25,
         fontWeight: "bold",
+    },
+    buttonTitleAbsen: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "white"
     },
     navbar: {
         padding: 7,
