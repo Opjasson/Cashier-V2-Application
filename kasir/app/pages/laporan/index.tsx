@@ -3,6 +3,7 @@ import Button from "@/app/components/moleculs/Button";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { NavigationProp } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
@@ -59,6 +60,12 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }
     };
 
+     const handleLogout = async () => {
+        await AsyncStorage.multiRemove(["userId", "absenId"]);
+        navigation.navigate("login");
+    };
+
+    // daftar menu sidebar
     const sideBarContent = () => {
         return (
             <DrawerContent
@@ -66,11 +73,14 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("kasir")}
                 onPress2={() => navigation.navigate("manage-barang")}
                 onPress3={() => navigation.navigate("history-transaksi")}
-                onPress4={() => navigation.navigate("login")}
+                onPress4={() => handleLogout()}
                 onPress5={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("absen")}
             />
         );
     };
+    // -------------
+
 
     // convert tanggal menjadi string
     const dateNow = date.toISOString().split("T")[0];
@@ -245,7 +255,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 <body>
 
   <div class="header">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="bengkel Logo" height="50"><br>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="Toko Logo" height="50"><br>
     <h1>Laporan Pendataan Penjualan ${date.toISOString().split("T")[0]} - ${
         date2.toISOString().split("T")[0]
     }</h1>

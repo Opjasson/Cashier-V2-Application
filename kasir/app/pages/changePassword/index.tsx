@@ -61,7 +61,7 @@ const ChangePass: React.FC<props> = ({ navigation, route }) => {
                         Lakukan Perubahan Password
                     </Text>
                     <Text style={styles.headLoginText2}>
-                        Aplikasi Kasir Bengkel
+                        Toko Sembako Jaya Makmur
                     </Text>
                     <Text style={styles.garisHead}></Text>
                 </View>

@@ -62,7 +62,7 @@ const CekEmail: React.FC<props> = ({ navigation }) => {
                         Pastikan Email Dahulu
                     </Text>
                     <Text style={styles.headLoginText2}>
-                        Aplikasi Kasir Bengkel
+                        Toko Sembako Jaya Makmur
                     </Text>
                     <Text style={styles.garisHead}></Text>
                 </View>

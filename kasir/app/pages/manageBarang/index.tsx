@@ -4,6 +4,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
@@ -102,6 +103,12 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
         }
     });
 
+   const handleLogout = async () => {
+        await AsyncStorage.multiRemove(["userId", "absenId"]);
+        navigation.navigate("login");
+    };
+
+    // daftar menu sidebar
     const sideBarContent = () => {
         return (
             <DrawerContent
@@ -109,11 +116,14 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
                 onPress1={() => navigation.navigate("kasir")}
                 onPress2={() => navigation.navigate("manage-barang")}
                 onPress3={() => navigation.navigate("history-transaksi")}
-                onPress4={() => navigation.navigate("login")}
+                onPress4={() => handleLogout()}
                 onPress5={() => navigation.navigate("laporan")}
+                onPress6={() => navigation.navigate("absen")}
             />
         );
     };
+    // -------------
+
 
     return (
         <SafeAreaView style={styles.container}>
