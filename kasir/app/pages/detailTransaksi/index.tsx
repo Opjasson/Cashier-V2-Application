@@ -161,13 +161,20 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
             html: htmlContent,
         });
 
-        const customFileName = `Kasir_bengkel_${dateNow}.pdf`;
+        const customFileName = `Nota_Toko_Jaya_Makmur_${dateNow}.pdf`;
+
+ 
 
         // buat file target
         const targetFile = new FileSystem.File(
             FileSystem.Paths.document,
             customFileName,
         );
+
+        // cek dulu
+        if (await targetFile.exists) {
+            await targetFile.delete();
+        }
 
         // file sumber
         const sourceFile = new FileSystem.File(uri);

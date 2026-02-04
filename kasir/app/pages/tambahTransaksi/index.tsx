@@ -14,8 +14,11 @@ import {
     View,
 } from "react-native";
 
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { NavigationProp, RouteProp, useFocusEffect } from "@react-navigation/native";
+import {
+    NavigationProp,
+    RouteProp,
+    useFocusEffect,
+} from "@react-navigation/native";
 
 import { DrawerContent } from "@/app/components";
 import MenuDrawer from "react-native-side-drawer";
@@ -57,8 +60,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 
     const login = route.params?.data;
 
-
-     // Handle jika user klik tombol kembali handphone
+    // Handle jika user klik tombol kembali handphone
     useFocusEffect(
         React.useCallback(() => {
             const onBackPress = () => {
@@ -72,11 +74,11 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 
             const subscription = BackHandler.addEventListener(
                 "hardwareBackPress",
-                onBackPress
+                onBackPress,
             );
 
             return () => subscription.remove(); // hapus listener dengan cara baru
-        }, [])
+        }, []),
     );
     // end handle tombol kembali
 
@@ -183,7 +185,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 
     const handleLogout = async () => {
         await AsyncStorage.multiRemove(["userId", "absenId"]);
-        navigation.navigate("login")
+        navigation.navigate("login");
     };
 
     // daftar menu sidebar
@@ -327,14 +329,12 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 {/* ------------ */}
             </ScrollView>
             {/* ---------- */}
-
             <TouchableOpacity
-                style={[{ bottom: inset.bottom }, styles.containerCart]}
-                activeOpacity={1}
-                onPress={() => prosesCart()}
+                style={[styles.containerCart, { bottom: inset.bottom }]}
+                activeOpacity={0.9}
+                onPress={prosesCart}
             >
                 <View style={styles.cartContent1}>
-                    <AntDesign name="shoppingcart" size={28} color="white" />
                     <Text style={styles.cartContent2}>
                         Pcs : {qtyBarangBelanja}
                     </Text>
@@ -456,6 +456,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         paddingTop: 5,
+        zIndex: 999,
     },
     cartContent1: {
         flexDirection: "row",

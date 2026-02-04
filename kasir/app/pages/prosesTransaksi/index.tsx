@@ -102,16 +102,14 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
     return (
         <SafeAreaView>
             {cart.map((item, index) => (
-                <View key={index}>
+                <View key={index} style={styles.containerBarang}>
                     <Text>{item.nama}</Text>
-                    <Text>
-                        {item.qty} x{item.harga_jual}
-                    </Text>
+                    <Text>{item.qty} x</Text>
+                    <Text>{item.harga_jual}</Text>
                 </View>
             ))}
-
-            <View>
-                <Text>Total : Rp.{totalHarga}</Text>
+            <Text style={styles.containerBarang}>Total : Rp.{totalHarga}</Text>
+            <View style={{paddingHorizontal: 12, marginTop: 8}}>
                 <Text>Nama Pelanggan :</Text>
                 <TextInput
                     style={{
@@ -148,6 +146,18 @@ const ProsesTransaksi: React.FC<props> = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+    containerBarang: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 10,
+        backgroundColor: "#FFF",
+        padding: 5,
+        paddingVertical: 15,
+        borderRadius: 12,
+        paddingHorizontal: 15,
+        marginHorizontal: 15,
+        elevation: 12,
+    },
     tambahBarang: {
         flexDirection: "row",
         borderRadius: 10,
@@ -156,7 +166,10 @@ const styles = StyleSheet.create({
         gap: 5,
         height: 40,
         paddingHorizontal: 5,
-        marginTop: 5,
+        marginTop: 12,
+        width: 250,
+        alignSelf: "center",
+        justifyContent: "center",
     },
 });
 
