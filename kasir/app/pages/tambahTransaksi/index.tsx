@@ -276,6 +276,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                                 style={{
                                     backgroundColor: "#F8F4E1",
                                     borderWidth: 2,
+                                    borderRadius:8,
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
                                     display: cart.find((k) => k.id === item.id)
@@ -303,6 +304,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 2,
+                                    borderRadius:8,
                                     backgroundColor: "#F8F4E1",
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
@@ -418,12 +420,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10,
-        backgroundColor: "#FFF085",
-        padding: 5,
+        backgroundColor: "#FFF",
+        padding: 8,
+        marginHorizontal: 12,
+        borderRadius: 8,
+        elevation: 12
     },
     menuIcon: {
         fontSize: 30,
         borderWidth: 2,
+        borderRadius: 50,
         backgroundColor: "#F8F4E1",
         paddingHorizontal: 10,
         justifyContent: "center",
