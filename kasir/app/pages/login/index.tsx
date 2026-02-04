@@ -68,7 +68,7 @@ const Login: React.FC<props> = ({ navigation }) => {
                     <View style={styles.headLogin}>
                         <Text style={styles.headLoginText1}>Halaman Login</Text>
                         <Text style={styles.headLoginText2}>
-                            Aplikasi Kasir Bengkel
+                            Toko Sembako Jaya Makmur
                         </Text>
                         <Text style={styles.garisHead}></Text>
                     </View>

@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     dataTransaksi: {
-        alignItems: "center",
+        alignItems: "center"
     },
     containerCart: {
         alignItems: "center",

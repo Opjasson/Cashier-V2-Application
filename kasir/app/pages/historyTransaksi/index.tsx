@@ -110,7 +110,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
             {/* ------------ */}
 
             {/* menampilkan daftar menu */}
-            <ScrollView>
+            <ScrollView style={{ paddingHorizontal: 8 }}>
                 {/* menu bagian */}
                 {historyTransaksi.map((item, index) => (
                     <TouchableOpacity
@@ -134,15 +134,22 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                 >
                                     #{index + 1}
                                 </Text>
-                                <View style={{ flexDirection: "row" }}>
+                                <View
+                                    style={{
+                                        flexDirection: "column",
+                                        width: 200,
+                                        justifyContent: "center",
+                                        alignItems: "flex-end"
+                                    }}
+                                >
                                     {item.carts.slice(0, 3).map((e, index) => (
                                         <View
-                                            style={{ marginLeft: 5 }}
+                                            style={{ flexDirection: "row" }}
                                             key={index}
                                         >
                                             <Text
                                                 key={index}
-                                                style={{ width: 40 }}
+                                                style={{ width: 80 }}
                                             >
                                                 {/* menampilkan nama barang berdasarkan no Id barang pada data carts */}
                                                 {
@@ -152,7 +159,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                                     )?.nama
                                                 }
                                             </Text>
-                                            <Text>{e.qty}</Text>
+                                            <Text>{e.qty}x</Text>
                                         </View>
                                     ))}
                                     <Text>...</Text>
@@ -236,9 +243,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10,
-        backgroundColor: "#FFF085",
+        backgroundColor: "#FFF",
         padding: 5,
         paddingVertical: 15,
+        borderRadius: 12,
+        paddingHorizontal: 15,
+        elevation: 12
     },
     barisInfo: {
         flexDirection: "row",
