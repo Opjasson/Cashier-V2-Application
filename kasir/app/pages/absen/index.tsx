@@ -120,6 +120,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                 },
                 body: JSON.stringify({
                     jam_keluar: `${jam}:${menit}:${detik}`,
+                    tunai: 50000
                 }),
             });
             await AsyncStorage.setItem("lastAbsen", String(dateNow.toLocaleDateString()));

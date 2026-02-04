@@ -21,7 +21,7 @@ export const createAbsen = async (req, res) => {
 export const getAbsens = async (req, res) => {
     try {
         const response = await absenModel.findAll({
-            attributes: ["id", "jam_masuk", "jam_keluar", "tanggal", "userId"],
+            attributes: ["id", "jam_masuk", "jam_keluar", "tanggal", "tunai", "userId"],
         });
         res.status(201).json(response);
     } catch (error) {
@@ -49,12 +49,13 @@ export const updateData_Absen = async (req, res) => {
                 id: req.params.id,
             },
         });
-        const { jam_masuk, jam_keluar, tanggal, userId } = req.body;
+        const { jam_masuk, jam_keluar, tanggal, tunai, userId } = req.body;
         await dataAbsen.update(
             {
                 jam_masuk,
                 jam_keluar,
                 tanggal,
+                tunai,
                 userId,
             },
             {

@@ -1,4 +1,4 @@
-import { DATE, STRING } from "sequelize";
+import { DATE, INTEGER, NUMBER, STRING } from "sequelize";
 import db from "../config/database.js";
 import userModel from "./user.js";
 
@@ -25,6 +25,13 @@ const absenModel = db.define(
             allowNull: false,
             validate: {
                 notEmpty: true,
+            },
+        },
+        tunai: {
+            type: INTEGER,
+            allowNull: true,
+            validate: {
+                notEmpty: false,
             },
         },
     },
