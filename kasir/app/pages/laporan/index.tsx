@@ -1,6 +1,5 @@
 import { DrawerContent } from "@/app/components";
 import Button from "@/app/components/moleculs/Button";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -250,7 +249,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     <h1>Laporan Pendataan Penjualan ${date.toISOString().split("T")[0]} - ${
         date2.toISOString().split("T")[0]
     }</h1>
-    <p><strong>Tirta Laksana Jaya Murni</strong><br>081246798129</p>
+    <p><strong>Toko Sembako Jaya Makmur</strong><br>0878959322</p>
   </div>
 
   <table>
@@ -277,19 +276,32 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const handleSavePdf = async () => {
         const htmlContent = generateHTML();
+
         const { uri } = await Print.printToFileAsync({
             html: htmlContent,
         });
 
-        const customFileName = `Kasir bengkel_${dateNow}.pdf`;
-        const newUri = FileSystem.documentDirectory + customFileName;
+        const customFileName = `Laporan_Toko_Jaya_Makmur_${dateNow}.pdf`;
 
-        await FileSystem.moveAsync({
-            from: uri,
-            to: newUri,
-        });
+        // buat file target
+        const targetFile = new FileSystem.File(
+            FileSystem.Paths.document,
+            customFileName,
+        );
 
-        await Sharing.shareAsync(newUri); // Menyimpan atau kirim PDF
+        // cek dulu
+        if (await targetFile.exists) {
+            await targetFile.delete();
+        }
+
+        // file sumber
+        const sourceFile = new FileSystem.File(uri);
+
+        // move → harus File object
+        await sourceFile.move(targetFile);
+
+        // share pakai uri hasil target
+        await Sharing.shareAsync(targetFile.uri);
     };
 
     // ------------------------------------------------------------
@@ -337,7 +349,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                     }}
                 >
                     <Text style={{ fontSize: 20, fontWeight: "900" }}>
-                        Laporan Penjualan Bengkel Mobil
+                        Toko Sembako Jaya Makmur
                     </Text>
                     <Text style={{ borderBottomWidth: 2, height: 2 }}></Text>
                     <Text style={{ fontSize: 15, fontWeight: "light" }}>
@@ -366,12 +378,9 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             {date ? date.toISOString().split("T")[0] : dateNow}
                         </Button>
 
-                        <AntDesign
-                            name="caretright"
-                            size={24}
-                            color="black"
-                            style={{ marginTop: 18 }}
-                        />
+                        <Text style={{fontSize: 50}}>
+                            {">"}
+                        </Text>
 
                         <Button
                             style={styles.buttonDate}
