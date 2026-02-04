@@ -202,7 +202,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                             {barang.find((e) => e.id === item.barangId)?.nama}
                         </Text>
                         <Text>
-                            {item.qty} x{" "}
+                            {" " + item.qty}x{" "}
                             {
                                 barang.find((e) => e.id === item.barangId)
                                     ?.harga_jual
@@ -210,15 +210,15 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                         </Text>
                     </View>
                 ))}
-                <Text>Total harga : {totalHarga}</Text>
+                <Text style={styles.containerCart}>Total harga : {totalHarga}</Text>
             </View>
 
-            <View>
+            <View style={{alignItems: "center"}}>
                 <TouchableOpacity
                     onPress={() => deleteTransaksi()}
                     style={styles.buttonDelete}
                 >
-                    <Text>Delete</Text>
+                    <Text style={{color: "white"}}>Delete</Text>
                 </TouchableOpacity>
 
                 <Button
@@ -244,17 +244,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 10,
-        backgroundColor: "#819067",
+        backgroundColor: "#3177d1",
     },
     containerTransaksi: {
-        borderWidth: 2,
         padding: 10,
+        backgroundColor: "white",
+        elevation: 8,
+        marginTop: 12,
+        marginHorizontal: 12,
+        borderRadius: 8
     },
     dataTransaksi: {
         alignItems: "center"
     },
     containerCart: {
         alignItems: "center",
+        flexDirection: "row",
+        borderColor: "#000",
+        borderBottomWidth: 2,
+        width: 160
     },
     buttonDelete: {
         backgroundColor: "red",
