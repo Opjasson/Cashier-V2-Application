@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 
+import Button from "@/app/components/moleculs/Button";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import * as FileSystem from "expo-file-system";
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -20,6 +25,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
     >([]);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
+    const [date, setDate] = useState(new Date());
 
     const sendData = route.params?.userId;
     console.log("USERID", sendData);
@@ -57,8 +63,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
             setEmail(data.email);
             setRole(data.role);
             setDataAbsen(data.absens);
-            console.log("ABSENDETAIL",data.absens);
-            
+            console.log("ABSENDETAIL", data.absens);
         } catch (error) {
             console.log(error);
         }
@@ -71,9 +76,6 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
     const totalGaji = dataAbsen1.reduce((total, item) => {
         return total + item.tunai;
     }, 0);
-
-    console.log("TOTALGAJI",totalGaji);
-    
 
     // const getAbsensUser = async () => {
     //     try {
@@ -90,6 +92,137 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
     // useEffect(() => {
     //     getAbsensUser();
     // }, []);
+
+    const generateHTML = () => {
+        const rows = dataAbsen1
+            .map(
+                (item, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${formatTanggal(item.tanggal)}</td>
+            <td>${item.jam_masuk}</td>
+            <td>${item.jam_keluar}</td>
+            <td>Rp  ${item.tunai.toLocaleString()}</td>
+          </tr>
+        `,
+            )
+            .join("");
+        return `
+          <html>
+            <head>
+  <meta charset="UTF-8">
+  <title>Laporan Pencatatan - September 2020</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .summary {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 40px;
+      font-size: 18px;
+    }
+    .summary div {
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .green { color: green; }
+    .red { color: red; }
+    .blue { color: #007bff; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .footer {
+      text-align: right;
+      font-size: 14px;
+    }
+      tr#total {
+  font-size: 18px;
+  font-weight: bold;
+}
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="jayaMakmur" height="50"><br>
+    <h1>Laporan Pengganjian ${date.toISOString().split("T")[0]
+    }</h1>
+    <p><strong>Toko Sembako Jaya Makmur</strong><br>0878950244</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tanggal</th>
+        <th>Jam Masuk</th>
+        <th>Jam Keluar</th>
+        <th>Tunai</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+      <tr id="total">Email : ${email}</tr> </br>
+      <tr id="total">Role : ${role}</tr> </br>
+      <tr id="total">Total Gaji : Rp.${totalGaji.toLocaleString()}</tr>
+    </tbody>
+  </table>
+
+</body>
+          </html>
+        `;
+    };
+
+    const handleSavePdf = async () => {
+        const htmlContent = generateHTML();
+
+        const { uri } = await Print.printToFileAsync({
+            html: htmlContent,
+        });
+
+        const customFileName = `Toko_Sembako_Jaya_Makmur_${date.toISOString().split("T")[0]}.pdf`;
+
+        // buat file target
+        const targetFile = new FileSystem.File(
+            FileSystem.Paths.document,
+            customFileName,
+        );
+
+        // cek dulu
+        if (await targetFile.exists) {
+            await targetFile.delete();
+        }
+
+        // file sumber
+        const sourceFile = new FileSystem.File(uri);
+
+        // move → harus File object
+        await sourceFile.move(targetFile);
+
+        // share pakai uri hasil target
+        await Sharing.shareAsync(targetFile.uri);
+    };
 
     return (
         <View style={styles.container}>
@@ -131,6 +264,16 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
                     </Text>
                 </View>
 
+                <Button
+                    aksi={handleSavePdf}
+                    style={styles.buttonDate}
+                    simbol={
+                        <FontAwesome5 name="print" size={24} color="black" />
+                    }
+                >
+                    Cetak
+                </Button>
+
                 {/* Tabel Absensi */}
                 <View style={styles.table}>
                     {/* Header */}
@@ -155,13 +298,26 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
                         </View>
                     ))}
 
-                    <Text style={styles.th}>Total Gaji: Rp.{totalGaji.toLocaleString()}</Text>
+                    <Text style={styles.th}>
+                        Total Gaji: Rp.{totalGaji.toLocaleString()}
+                    </Text>
                 </View>
             </ScrollView>
         </View>
     );
 };
 const styles = StyleSheet.create({
+    buttonDate: {
+        borderWidth: 1,
+        width: 130,
+        flexDirection: "row",
+        gap: 5,
+        marginTop: 20,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 10,
+        backgroundColor: "#819067",
+    },
     headInfo: {
         borderRadius: 15,
         padding: 5,
