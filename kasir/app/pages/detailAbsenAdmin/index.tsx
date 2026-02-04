@@ -14,6 +14,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
             tanggal: Date;
             jam_masuk: string;
             jam_keluar: string;
+            tunai: number;
             userId: number;
         }[]
     >([]);
@@ -66,6 +67,13 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
     useEffect(() => {
         getUser();
     }, []);
+
+    const totalGaji = dataAbsen1.reduce((total, item) => {
+        return total + item.tunai;
+    }, 0);
+
+    console.log("TOTALGAJI",totalGaji);
+    
 
     // const getAbsensUser = async () => {
     //     try {
@@ -147,7 +155,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
                         </View>
                     ))}
 
-                    <Text style={styles.th}>Total Gaji: Rp.20000</Text>
+                    <Text style={styles.th}>Total Gaji: Rp.{totalGaji.toLocaleString()}</Text>
                 </View>
             </ScrollView>
         </View>
