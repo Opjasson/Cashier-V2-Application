@@ -35,6 +35,7 @@ export const getAbsenByUserId = async (req, res) => {
             where: {
                 userId: req.params.id,
             },
+            attributes: ["id", "jam_masuk", "jam_keluar", "tanggal", "tunai", "userId"],
         });
         res.status(201).json(response);
     } catch (error) {

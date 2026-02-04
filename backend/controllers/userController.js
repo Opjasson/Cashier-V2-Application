@@ -22,7 +22,14 @@ export const getUserById = async (req, res) => {
             include: [
                 {
                     model: absenModel,
-                    attributes: ["jam_masuk", "jam_keluar", "tanggal"],
+                    attributes: [
+                        "id",
+                        "jam_masuk",
+                        "jam_keluar",
+                        "tanggal",
+                        "tunai",
+                        "userId",
+                    ],
                 },
             ],
         });
@@ -91,7 +98,7 @@ export const updateUsersById = async (req, res) => {
                 where: {
                     id: getUserById.id,
                 },
-            }
+            },
         );
         res.status(201).json({ msg: "Akun berhasil dirubah" });
     } catch (error) {

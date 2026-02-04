@@ -56,6 +56,8 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
             setEmail(data.email);
             setRole(data.role);
             setDataAbsen(data.absens);
+            console.log("ABSENDETAIL",data.absens);
+            
         } catch (error) {
             console.log(error);
         }
