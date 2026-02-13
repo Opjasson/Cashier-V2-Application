@@ -153,7 +153,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                         alignItems: "flex-end",
                                     }}
                                 >
-                                    {item.carts.slice(0, 3).map((e, index) => (
+                                    {item.carts?.slice(0, 3).map((e, index) => (
                                         <View
                                             style={{ flexDirection: "row" }}
                                             key={index}
