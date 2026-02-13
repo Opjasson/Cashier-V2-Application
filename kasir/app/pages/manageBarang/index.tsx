@@ -41,7 +41,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.63.12:5000/barang");
+        const response = await fetch("http://192.168.106.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -62,7 +62,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
 
     const handleDelete = async (id: number) => {
         try {
-            await fetch(`http://192.168.63.12:5000/barang/${id}`, {
+            await fetch(`http://192.168.106.12:5000/barang/${id}`, {
                 method: "DELETE",
             });
             if (refresh) {
@@ -103,7 +103,7 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
         }
     });
 
-   const handleLogout = async () => {
+    const handleLogout = async () => {
         await AsyncStorage.multiRemove(["userId", "absenId"]);
         navigation.navigate("login");
     };
@@ -123,7 +123,6 @@ const ManageBarang: React.FC<props> = ({ navigation }) => {
         );
     };
     // -------------
-
 
     return (
         <SafeAreaView style={styles.container}>

@@ -46,7 +46,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
         }
     };
 
-     const handleLogout = async () => {
+    const handleLogout = async () => {
         await AsyncStorage.multiRemove(["userId", "absenId"]);
         navigation.navigate("login");
     };
@@ -67,10 +67,11 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
     };
     // -------------
 
-
     const getHistorys = async () => {
         try {
-            const response = await fetch("http://192.168.63.12:5000/transaksi");
+            const response = await fetch(
+                "http://192.168.106.12:5000/transaksi",
+            );
             const history = (await response.json()) as {
                 response: {
                     carts: [];
@@ -89,7 +90,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.63.12:5000/barang");
+            const response = await fetch("http://192.168.106.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -149,7 +150,7 @@ const HistoryTransaksi: React.FC<props> = ({ navigation }) => {
                                         flexDirection: "column",
                                         width: 200,
                                         justifyContent: "center",
-                                        alignItems: "flex-end"
+                                        alignItems: "flex-end",
                                     }}
                                 >
                                     {item.carts.slice(0, 3).map((e, index) => (
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         borderRadius: 12,
         paddingHorizontal: 15,
-        elevation: 12
+        elevation: 12,
     },
     barisInfo: {
         flexDirection: "row",

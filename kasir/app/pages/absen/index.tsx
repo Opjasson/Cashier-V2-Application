@@ -20,6 +20,8 @@ interface props {
 
 const Absen: React.FC<props> = ({ navigation, route }) => {
     const [open, setOpen] = useState(false);
+    const [userRole, setUserRole] = useState("");
+    const [email, setEmail] = useState("");
     const [absenId, setAbsenId] = useState("");
     const [dateLast, setDateLast] = useState("");
     const [dataAbsen, setDataAbsen] = useState<
@@ -61,21 +63,30 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
 
     let dateNow = new Date();
 
-    console.log(dateNow.toLocaleDateString());
-    
-    
+    // console.log(dateNow.toLocaleDateString());
+
+    const getAkunLoggin = async () => {
+        const userId = await AsyncStorage.getItem("userId");
+        const response = await fetch(`http://192.168.106.12:5000/user/${userId}`);
+        const user = await response.json();
+        console.log("login",user);
+        if (user != null) {
+            setUserRole(user.role);
+            setEmail(user.email);
+        }
+    };
 
     const getAbsensUser = async () => {
         const userId = await AsyncStorage.getItem("userId");
         const absenId = await AsyncStorage.getItem("absenId");
         const dateCondition = await AsyncStorage.getItem("lastAbsen");
-        
-        setAbsenId(absenId!!)
-        setDateLast(dateCondition!!)
-        
+
+        setAbsenId(absenId!!);
+        setDateLast(dateCondition!!);
+
         try {
             const response = await fetch(
-                `http://192.168.63.12:5000/absen/${userId}`,
+                `http://192.168.106.12:5000/absen/${userId}`,
             );
             const json = await response.json();
             setDataAbsen(json);
@@ -87,7 +98,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
     const createAbsen = async () => {
         const userId = await AsyncStorage.getItem("userId");
         try {
-            const response = await fetch("http://192.168.63.12:5000/absen", {
+            const response = await fetch("http://192.168.106.12:5000/absen", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -113,17 +124,20 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
     const createPulang = async () => {
         const absenId = await AsyncStorage.getItem("absenId");
         try {
-            await fetch(`http://192.168.63.12:5000/absen/${absenId}`, {
+            await fetch(`http://192.168.106.12:5000/absen/${absenId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     jam_keluar: `${jam}:${menit}:${detik}`,
-                    tunai: 50000
+                    tunai: 50000,
                 }),
             });
-            await AsyncStorage.setItem("lastAbsen", String(dateNow.toLocaleDateString()));
+            await AsyncStorage.setItem(
+                "lastAbsen",
+                String(dateNow.toLocaleDateString()),
+            );
             alert("Silahkan untuk logout.");
             navigation.navigate("kasir");
         } catch (error) {
@@ -133,6 +147,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
 
     useEffect(() => {
         getAbsensUser();
+        getAkunLoggin();
     }, []);
 
     const toggleOpen = () => {
@@ -143,7 +158,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
         }
     };
 
-     const handleLogout = async () => {
+    const handleLogout = async () => {
         await AsyncStorage.multiRemove(["userId", "absenId"]);
         navigation.navigate("login");
     };
@@ -163,7 +178,6 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
         );
     };
     // -------------
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -195,16 +209,22 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
 
                     <Text style={styles.text}>
                         Email :{" "}
-                        <Text style={styles.textBold}>bobi@gmail.com</Text>
+                        <Text style={styles.textBold}>{email}</Text>
                     </Text>
                     <Text style={styles.text}>
-                        Divisi : <Text style={styles.textBold}>kasir</Text>
+                        Divisi : <Text style={styles.textBold}>{userRole}</Text>
                     </Text>
 
                     {/* Button */}
-                    <View style={dateLast != dateNow.toLocaleDateString() ? styles.buttonRow : styles.buttonRowHidden}>
+                    <View
+                        style={
+                            dateLast != dateNow.toLocaleDateString()
+                                ? styles.buttonRow
+                                : styles.buttonRowHidden
+                        }
+                    >
                         <TouchableOpacity
-                            disabled = {absenId == null ? false : true}
+                            disabled={absenId == null ? false : true}
                             style={styles.btnAbsen}
                             onPress={() => createAbsen()}
                         >
@@ -212,7 +232,7 @@ const Absen: React.FC<props> = ({ navigation, route }) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            disabled = {absenId == null ? true : false}
+                            disabled={absenId == null ? true : false}
                             style={styles.btnPulang}
                             onPress={() => createPulang()}
                         >
@@ -343,7 +363,7 @@ const styles = StyleSheet.create({
         marginTop: 12,
     },
     buttonRowHidden: {
-        display : "none"
+        display: "none",
     },
 
     btnAbsen: {

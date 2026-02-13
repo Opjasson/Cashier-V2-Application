@@ -48,6 +48,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     const [open, setOpen] = useState(false);
     const [totalHarga, setTotalHarga] = useState<number>();
     const [qtyBarangBelanja, setQtyBarangBelanja] = useState<number>();
+    const [userId, setUserId] = useState("");
     const [cart, setCart] = useState<
         {
             id: number;
@@ -83,7 +84,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     // end handle tombol kembali
 
     const getDataBarang = async () => {
-        const response = await fetch("http://192.168.63.12:5000/barang");
+        const response = await fetch("http://192.168.106.12:5000/barang");
         const barang = await response.json();
         setData(barang);
     };
@@ -149,6 +150,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     useEffect(() => {
         const checkUserId = async () => {
             const token = await AsyncStorage.getItem("userId");
+            setUserId(token!!);
             console.log("TOKEN : ", token);
         };
 
@@ -161,7 +163,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
     });
 
     const prosesCart = async () => {
-        const response = await fetch("http://192.168.63.12:5000/transaksi", {
+        const response = await fetch("http://192.168.106.12:5000/transaksi", {
             method: "POST",
         });
         const transaksi = await response.json();
@@ -220,6 +222,11 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                 <Text style={styles.headTitle}>Transaksi Baru</Text>
 
                 <TouchableOpacity
+                    style={
+                        userId != "2"
+                            ? styles.settingHidden
+                            : styles.settingShow
+                    }
                     onPress={() => navigation.navigate("settingAkun")}
                 >
                     <Feather
@@ -276,7 +283,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                                 style={{
                                     backgroundColor: "#F8F4E1",
                                     borderWidth: 2,
-                                    borderRadius:8,
+                                    borderRadius: 8,
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
                                     display: cart.find((k) => k.id === item.id)
@@ -304,7 +311,7 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 2,
-                                    borderRadius:8,
+                                    borderRadius: 8,
                                     backgroundColor: "#F8F4E1",
                                     paddingHorizontal: 10,
                                     justifyContent: "center",
@@ -359,6 +366,12 @@ const Kasir: React.FC<props> = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+    settingShow: {
+        display: "flex",
+    },
+    settingHidden: {
+        display: "none",
+    },
     animatedBox: {
         flex: 1,
         backgroundColor: "#38C8EC",
@@ -424,7 +437,7 @@ const styles = StyleSheet.create({
         padding: 8,
         marginHorizontal: 12,
         borderRadius: 8,
-        elevation: 12
+        elevation: 12,
     },
     menuIcon: {
         fontSize: 30,

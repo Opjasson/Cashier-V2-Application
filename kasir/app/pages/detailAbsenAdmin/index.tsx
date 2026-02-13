@@ -56,7 +56,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
     const getUser = async () => {
         try {
             const response = await fetch(
-                `http://192.168.63.12:5000/user/${sendData}`,
+                `http://192.168.106.12:5000/user/${sendData}`,
             );
             const data = await response.json();
             console.log(data);
@@ -80,7 +80,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
     // const getAbsensUser = async () => {
     //     try {
     //         const response = await fetch(
-    //             `http://192.168.63.12:5000/absen/${sendData}`,
+    //             `http://192.168.106.12:5000/absen/${sendData}`,
     //         );
     //         const json = await response.json();
     //         setDataAbsen(json);
@@ -166,8 +166,7 @@ const DetailAbsenAdmin: React.FC<props> = ({ navigation, route }) => {
 
   <div class="header">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Payfazz_logo.svg/2560px-Payfazz_logo.svg.png" alt="jayaMakmur" height="50"><br>
-    <h1>Laporan Pengganjian ${date.toISOString().split("T")[0]
-    }</h1>
+    <h1>Laporan Pengganjian ${date.toISOString().split("T")[0]}</h1>
     <p><strong>Toko Sembako Jaya Makmur</strong><br>0878950244</p>
   </div>
 

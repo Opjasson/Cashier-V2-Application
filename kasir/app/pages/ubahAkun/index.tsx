@@ -26,7 +26,7 @@ const UbahAkun: React.FC<props> = ({ navigation, route }) => {
     const handleRegister = async () => {
         if (password && confPassword) {
             const response = await fetch(
-                `http://192.168.63.12:5000/user/${user.id}`,
+                `http://192.168.106.12:5000/user/${user.id}`,
                 {
                     method: "PATCH",
                     headers: {

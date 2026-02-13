@@ -11,6 +11,7 @@ import {
 
 import Button from "@/app/components/moleculs/Button";
 import { NavigationProp } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface props {
     navigation: NavigationProp<any, any>;
@@ -30,7 +31,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
     // const [id, setId] = useState<number>();
 
     // const getUserId = async () => {
-    //     const response = await fetch("http://192.168.63.12:5000/login");
+    //     const response = await fetch("http://192.168.106.12:5000/login");
     //     const data = await response.json();
     //     setId(Object.values(data)[0]?.userId);
     // };
@@ -47,7 +48,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const fetchData = async () => {
-        const response = await fetch("http://192.168.63.12:5000/user");
+        const response = await fetch("http://192.168.106.12:5000/user");
         const data = await response.json();
         console.log(data.data);
 
@@ -56,7 +57,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
 
     // Get data lewat api
     const deleteAkun = async (id: number) => {
-        const response = await fetch(`http://192.168.63.12:5000/user/${id}`, {
+        const response = await fetch(`http://192.168.106.12:5000/user/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -74,7 +75,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor="#FF9B51" barStyle="light-content" />
 
             <View style={styles.headInfo}>
@@ -93,49 +94,54 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                 ></Text>
             </View>
 
-             {/* menampilkan absen */}
-                        <ScrollView
-                            contentContainerStyle={{
-                                paddingBottom: 40,
-                                paddingHorizontal: 16,
-                            }}
-                        >
-                            {/* Judul */}
-                            <Text style={styles.title}>Absensi</Text>
-            
-                            {/* Card Detail Absen */}
-                            <View style={styles.card}>
-                                <Text style={styles.cardTitle}>Daftar Karyawan</Text>
-                            </View>
-            
-                            {/* Tabel Absensi */}
-                            <View style={styles.table}>
-                                {/* Header */}
-                                <View style={styles.tableHeader}>
-                                    <Text style={[styles.th, { flex: 0.5 }]}>No</Text>
-                                    <Text style={[styles.th, { flex: 1.5 }]}>Nama</Text>
-                                    <Text style={styles.th}>Detail</Text>
-                                </View>
-            
-                                {/* Row */}
-                                {user.map((a, index) => (
-                                    <View style={styles.tableRow} key={index}>
-                                        <Text style={[styles.td, { flex: 0.5 }]}>
-                                            {index + 1}
-                                        </Text>
-                                        <Text style={[styles.td, { flex: 1.5 }]}>
-                                            {a.email}
-                                        </Text>
-                                        <Button
-                                        style={styles.td}
-                                        styleTitle={styles.buttonTitleAbsen}
-                                        aksi={() => navigation.navigate("absenDetail", {
-                                            userId : a.id
-                                        })}>Detail</Button>
-                                    </View>
-                                ))}
-                            </View>
-                        </ScrollView>
+            {/* menampilkan absen */}
+            <ScrollView
+                contentContainerStyle={{
+                    paddingBottom: 40,
+                    paddingHorizontal: 16,
+                }}
+            >
+                {/* Judul */}
+                <Text style={styles.title}>Absensi</Text>
+
+                {/* Card Detail Absen */}
+                <View style={styles.card}>
+                    <Text style={styles.cardTitle}>Daftar Karyawan</Text>
+                </View>
+
+                {/* Tabel Absensi */}
+                <View style={styles.table}>
+                    {/* Header */}
+                    <View style={styles.tableHeader}>
+                        <Text style={[styles.th, { flex: 0.5 }]}>No</Text>
+                        <Text style={[styles.th, { flex: 1.5 }]}>Nama</Text>
+                        <Text style={styles.th}>Detail</Text>
+                    </View>
+
+                    {/* Row */}
+                    {user.map((a, index) => (
+                        <View style={styles.tableRow} key={index}>
+                            <Text style={[styles.td, { flex: 0.5 }]}>
+                                {index + 1}
+                            </Text>
+                            <Text style={[styles.td, { flex: 1.5 }]}>
+                                {a.email}
+                            </Text>
+                            <Button
+                                style={styles.td}
+                                styleTitle={styles.buttonTitleAbsen}
+                                aksi={() =>
+                                    navigation.navigate("absenDetail", {
+                                        userId: a.id,
+                                    })
+                                }
+                            >
+                                Detail
+                            </Button>
+                        </View>
+                    ))}
+                </View>
+            </ScrollView>
 
             <Button
                 aksi={() => navigation.navigate("tambahAkun")}
@@ -210,7 +216,7 @@ const SetAkun: React.FC<props> = ({ navigation }) => {
                     </View>
                 </View>
             ))}
-        </View>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
@@ -231,7 +237,7 @@ const styles = StyleSheet.create({
     buttonTitleAbsen: {
         fontSize: 14,
         fontWeight: "bold",
-        color: "white"
+        color: "white",
     },
     navbar: {
         padding: 7,
@@ -331,7 +337,7 @@ const styles = StyleSheet.create({
         marginTop: 12,
     },
     buttonRowHidden: {
-        display : "none"
+        display: "none",
     },
 
     btnAbsen: {

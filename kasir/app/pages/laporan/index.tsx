@@ -60,7 +60,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
         }
     };
 
-     const handleLogout = async () => {
+    const handleLogout = async () => {
         await AsyncStorage.multiRemove(["userId", "absenId"]);
         navigation.navigate("login");
     };
@@ -81,7 +81,6 @@ const Laporan: React.FC<props> = ({ navigation }) => {
     };
     // -------------
 
-
     // convert tanggal menjadi string
     const dateNow = date.toISOString().split("T")[0];
 
@@ -97,7 +96,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getCart = async () => {
         try {
-            const response = await fetch("http://192.168.63.12:5000/cart");
+            const response = await fetch("http://192.168.106.12:5000/cart");
             const cat = await response.json();
             setCart(cat.response);
         } catch (error) {
@@ -107,7 +106,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.63.12:5000/barang");
+            const response = await fetch("http://192.168.106.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -388,9 +387,7 @@ const Laporan: React.FC<props> = ({ navigation }) => {
                             {date ? date.toISOString().split("T")[0] : dateNow}
                         </Button>
 
-                        <Text style={{fontSize: 50}}>
-                            {">"}
-                        </Text>
+                        <Text style={{ fontSize: 50 }}>{">"}</Text>
 
                         <Button
                             style={styles.buttonDate}

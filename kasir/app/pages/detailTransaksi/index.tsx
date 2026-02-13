@@ -33,7 +33,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getTransaksiByUUID = async () => {
         const response = await fetch(
-            `http://192.168.63.12:5000/transaksi/${routeUuid}`,
+            `http://192.168.106.12:5000/transaksi/${routeUuid}`,
         );
         const dataJson = await response.json();
         setCart(dataJson.carts);
@@ -57,7 +57,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
     const getDataBarang = async () => {
         try {
-            const response = await fetch("http://192.168.63.12:5000/barang");
+            const response = await fetch("http://192.168.106.12:5000/barang");
             const barang = await response.json();
             setBarang(barang);
         } catch (error) {
@@ -74,7 +74,7 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
     }, []);
 
     const deleteTransaksi = async () => {
-        await fetch(`http://192.168.63.12:5000/transaksi/${id}`, {
+        await fetch(`http://192.168.106.12:5000/transaksi/${id}`, {
             method: "DELETE",
         });
         navigation.navigate("history-transaksi");
@@ -163,8 +163,6 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
 
         const customFileName = `Nota_Toko_Jaya_Makmur_${dateNow}.pdf`;
 
- 
-
         // buat file target
         const targetFile = new FileSystem.File(
             FileSystem.Paths.document,
@@ -217,15 +215,17 @@ const DetailTransaksi: React.FC<props> = ({ route, navigation }) => {
                         </Text>
                     </View>
                 ))}
-                <Text style={styles.containerCart}>Total harga : {totalHarga}</Text>
+                <Text style={styles.containerCart}>
+                    Total harga : {totalHarga}
+                </Text>
             </View>
 
-            <View style={{alignItems: "center"}}>
+            <View style={{ alignItems: "center" }}>
                 <TouchableOpacity
                     onPress={() => deleteTransaksi()}
                     style={styles.buttonDelete}
                 >
-                    <Text style={{color: "white"}}>Delete</Text>
+                    <Text style={{ color: "white" }}>Delete</Text>
                 </TouchableOpacity>
 
                 <Button
@@ -259,17 +259,17 @@ const styles = StyleSheet.create({
         elevation: 8,
         marginTop: 12,
         marginHorizontal: 12,
-        borderRadius: 8
+        borderRadius: 8,
     },
     dataTransaksi: {
-        alignItems: "center"
+        alignItems: "center",
     },
     containerCart: {
         alignItems: "center",
         flexDirection: "row",
         borderColor: "#000",
         borderBottomWidth: 2,
-        width: 160
+        width: 160,
     },
     buttonDelete: {
         backgroundColor: "red",

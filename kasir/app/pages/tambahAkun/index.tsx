@@ -23,7 +23,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
 
     const handleRegister = async () => {
         if (email && password && confPassword) {
-            const response = await fetch("http://192.168.63.12:5000/user", {
+            const response = await fetch("http://192.168.106.12:5000/user", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,6 +32,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
                     email: email,
                     password: password,
                     confPassword: confPassword,
+                    role: "kasir",
                 }),
             });
 
@@ -48,7 +49,7 @@ const TambahAkun: React.FC<props> = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor="#3bb9f7" barStyle="light-content" />
+            <StatusBar backgroundColor="#FF9B51" barStyle="light-content" />
 
             <View style={styles.headInfo}>
                 <Text
